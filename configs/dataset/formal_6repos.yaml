@@ -1,0 +1,56 @@
+run_id: formal_6repos
+data_version: public_jira_creation_history_v2
+project_root: .
+
+raw_sources:
+  public_jira_zip: "data/raw/public_jira/2025-06-23 ThePublicJiraDataset.zip"
+  processed_pairs_json: "data/processed/public_jira/requirement_pairs_dependencies_clean.json"
+  creation_history: data/processed/public_jira/formal_creation_history.jsonl
+  mongo_uri: "mongodb://localhost:27017"
+  mongo_database: null
+
+target_repositories:
+  - Apache
+  - Hyperledger
+  - Qt
+  - MongoDB
+  - Spring
+  - Sonatype
+
+# Minimal run: single repo for local development
+minimal_run:
+  selected_repository: Apache
+  preferred_repository_count: 1
+  fallback_repository_count: 3
+  window_count: 8
+  window_strategy: quantile_by_pair_count
+  pair_available_at: max_issue_created
+  train_windows: ["W1", "W2"]
+  validation_windows: ["W3"]
+  online_windows: ["W4", "W5", "W6"]
+  test_windows: ["W7", "W8"]
+  max_pairs_per_window: 300
+  max_negative_candidate_issues_per_window: 2500
+  negative_ratio: 1.0
+  seed: 42
+
+# Formal run: 6 repos, 32 windows, full scale
+formal_run:
+  window_count: 32
+  window_strategy: fixed_sprints
+  start_date: "2018-01-11"
+  end_date: "2019-04-04"
+  sprint_days: 14
+  pair_available_at: max_issue_created
+  train_windows: ["W1", "W2", "W3"]
+  validation_windows: ["W4"]
+  online_windows: ["W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13", "W14", "W15", "W16", "W17", "W18", "W19", "W20", "W21", "W22", "W23", "W24", "W25", "W26", "W27", "W28"]
+  test_windows: ["W29", "W30", "W31", "W32"]
+  max_pairs_per_window: null
+  max_negative_candidate_issues_per_window: 5000
+  negative_ratio: 1.0
+  seed: 42
+
+pair_construction:
+  negative_mining_backend: sbert
+  sbert_model_name: sentence-transformers/all-MiniLM-L6-v2

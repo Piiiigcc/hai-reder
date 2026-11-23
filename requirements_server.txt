@@ -1,0 +1,38 @@
+# Server requirements for HAI-ReDeR (Linux + CUDA 11.8 + 3090 24G)
+# Install with: pip install -r requirements_server.txt
+
+# PyTorch (CUDA 11.8) - latest version with cu118 support is 2.7.1
+--extra-index-url https://download.pytorch.org/whl/cu118
+torch==2.7.1
+torchaudio==2.7.1
+torchvision==0.22.1
+
+# ML/DL
+transformers==5.9.0
+peft==0.19.1
+sentence-transformers==5.5.1
+datasets==4.8.5
+accelerate==1.13.0
+tokenizers==0.22.2
+huggingface-hub==1.16.4
+bitsandbytes>=0.46.1
+
+# Data/Science
+scikit-learn==1.8.0
+pandas==3.0.2
+numpy==2.4.4
+scipy==1.17.1
+
+# Utils
+pyyaml==6.0.3
+tqdm==4.67.3
+matplotlib==3.10.9
+seaborn==0.13.2
+pytest==9.0.3
+requests==2.34.2
+pyarrow==24.0.0
+evaluate==0.4.6
+safetensors==0.7.0
+
+pymongo>=4,<5
+jsonschema>=4,<5

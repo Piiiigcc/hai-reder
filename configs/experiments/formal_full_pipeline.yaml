@@ -1,0 +1,82 @@
+run_id: formal_full_pipeline
+experiment_name: formal_full_pipeline_paper_features
+dataset_config: configs/dataset/formal_6repos.yaml
+model_config: configs/models/formal_qwen_qlora.yaml
+
+outputs:
+  logs_dir: outputs/logs
+  tables_dir: outputs/tables
+  metrics_dir: outputs/metrics
+  predictions_dir: outputs/predictions
+  transcripts_dir: outputs/debate_transcripts
+
+debate:
+  max_rounds: 3
+  parse_failure_policy: retry_then_fail
+
+confidence:
+  tau_low: 0.4
+  tau_high: 0.8
+  verbal_confidence_map:
+    very_low: 0.1
+    low: 0.3
+    medium: 0.5
+    high: 0.7
+    very_high: 0.9
+  fusion_weights:
+    self_evaluation: 0.34
+    inter_agent_agreement: 0.33
+    retrieval_similarity: 0.33
+  s2_round_weighted: true
+  s3_backend: sbert
+  sbert:
+    model_name: sentence-transformers/all-MiniLM-L6-v2
+    k: 5
+    persist_path: models/calibration/sbert_index.json
+  weight_search_enabled: true
+  weight_search:
+    step: 0.1
+    n_bins: 10
+    output_path: models/calibration/optimal_weights.json
+
+online_learning:
+  refresh_period_sprints: 4
+  replay_ratio: 0.3
+  new_data_ratio: 0.7
+  pool_capacity: 500
+  recency_partition_ratio: 0.6
+  difficulty_partition_ratio: 0.4
+  role_filter_enabled: true
+  reinference_enabled: true
+  role_specific_refresh_corpus: true
+  reinference:
+    adapter_dir: models/adapters/proposer
+    prompt_template: prompts/agents/proposer_prompt.md
+    max_examples: 5
+    max_new_tokens: 128
+
+training:
+  data_source: real
+  failure_rows_path: data/processed/splits/proposer_failures.jsonl
+  real_transcripts_path: data/processed/splits/debate_transcripts.jsonl
+
+  augmentation:
+    enabled: true
+    max_variants_per_seed: null
+    manual_review_sample_size: 100
+    generator_backend: llm
+    llm:
+      backend: local
+      model_name: Qwen/Qwen2.5-7B-Instruct
+      validator_model_name: Qwen/Qwen2.5-3B-Instruct
+    prompt_template: prompts/augmentation/pair_augmentation_prompt.md
+    validation_prompt_template: prompts/validation/augmentation_validation_prompt.md
+    full_prompt_template: prompts/augmentation/formal_pair_augmentation.md
+    full_validation_prompt_template: prompts/validation/formal_augmentation_validation.md
+    reference_pairs_per_prompt: 3
+    max_new_tokens: 512
+    temperature: 0.7
+    validation_temperature: 0.3
+    sbert_model: sentence-transformers/all-MiniLM-L6-v2
+    embedding_min_distance: 0.1
+    embedding_max_distance: 0.9

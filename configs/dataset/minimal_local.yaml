@@ -1,0 +1,51 @@
+run_id: minimal_local
+data_version: local_public_jira_v1_processed
+project_root: .
+
+raw_sources:
+  public_jira_zip: "data/raw/public_jira/2025-06-23 ThePublicJiraDataset.zip"
+  processed_pairs_json: "data/interim/public_jira/requirement_pairs_dependencies.json"
+  per_repo_csv_dir: "data/interim/public_jira/per_repository_csv"
+  mongo_uri: "mongodb://localhost:27017"
+  mongo_database: null
+
+target_repositories:
+  - Apache
+  - Hyperledger
+  - Qt
+  - MongoDB
+  - Spring
+  - Sonatype
+
+minimal_run:
+  selected_repository: Apache
+  preferred_repository_count: 1
+  fallback_repository_count: 3
+  window_count: 8
+  window_strategy: quantile_by_pair_count
+  pair_available_at: max_issue_created
+  train_windows: ["W1", "W2"]
+  validation_windows: ["W3"]
+  online_windows: ["W4", "W5", "W6"]
+  test_windows: ["W7", "W8"]
+  max_pairs_per_window: 300
+  max_negative_candidate_issues_per_window: 2500
+  negative_ratio: 1.0
+  seed: 42
+
+formal_run:
+  window_count: 32
+  window_strategy: chronological_2week_sprint
+  pair_available_at: max_issue_created
+  train_windows: ["W1", "W2", "W3"]
+  validation_windows: ["W4"]
+  online_windows: ["W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13", "W14", "W15", "W16", "W17", "W18", "W19", "W20", "W21", "W22", "W23", "W24", "W25", "W26", "W27", "W28"]
+  test_windows: ["W29", "W30", "W31", "W32"]
+  max_pairs_per_window: null
+  max_negative_candidate_issues_per_window: 5000
+  negative_ratio: 1.0
+  seed: 42
+
+pair_construction:
+  negative_mining_backend: tfidf
+  sbert_model_name: all-MiniLM-L6-v2

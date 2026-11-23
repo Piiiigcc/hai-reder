@@ -1,0 +1,52 @@
+labels:
+  - None
+  - General Relation
+  - Duplication
+  - Composition
+  - Temporal/Causal
+  - Workflow
+
+label_definitions:
+  None: No link between the two requirements is recorded in either direction in the frozen source.
+  General Relation: A broad relation that offers useful contextual information but does not specify duplication, structural composition, temporal/causal dependency, or workflow action.
+  Duplication: Two issues describe the same or intentionally cloned/replaced requirement, bug, feature, or task.
+  Composition: A structural relation where one issue contains, decomposes, splits, or organizes another.
+  Temporal/Causal: One issue depends on, blocks, causes, requires, precedes, or follows another in time or causality.
+  Workflow: A process-oriented relation about fixing, implementing, testing, documenting, backporting, or similar development workflow activity.
+
+normalized_dependency_type_to_label:
+  Backport: Workflow
+  Block: Temporal/Causal
+  Bonfire Testing: Workflow
+  Breaks: Workflow
+  Cause: Temporal/Causal
+  Clone: Duplication
+  Depend: Temporal/Causal
+  Derive: Workflow
+  Detail: Workflow
+  Documented: Workflow
+  Duplicate: Duplication
+  Epic: Composition
+  Fix: Workflow
+  Follow: Temporal/Causal
+  Implement: Workflow
+  Incorporate: Composition
+  Parent-Child: Composition
+  Precede: Temporal/Causal
+  Relate: General Relation
+  Replace: Duplication
+  Require: Temporal/Causal
+  Split: Composition
+  Subtask: Composition
+  Supercede: Workflow
+  Test: Workflow
+  Trigger: Workflow
+  finish-finish: Temporal/Causal
+  finish-start: Temporal/Causal
+  start-finish: Temporal/Causal
+  start-start: Temporal/Causal
+
+notes:
+  - This file maps normalized Public Jira Dataset link categories to the six HAI-ReDeR labels.
+  - The None label is reserved for generated negative pairs and must not be assigned to positive recorded links.
+  - Source for normalized groups is Table 2 of Lüders, Bouraffa and Maalej (2022), https://arxiv.org/abs/2204.12893.

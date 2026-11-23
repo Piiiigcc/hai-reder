@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HAI-ReDeR Debate Transcript Row",
+  "type": "object",
+  "required": [
+    "pair_id",
+    "repo",
+    "window",
+    "split",
+    "rounds",
+    "judge",
+    "termination_reason"
+  ],
+  "properties": {
+    "pair_id": {"type": "string"},
+    "repo": {"type": "string"},
+    "window": {"type": "string"},
+    "split": {"type": "string"},
+    "rounds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "round_index": {"type": "integer"},
+          "proposer": {
+            "type": "object",
+            "properties": {
+              "raw_output": {},
+              "parsed_output": {}
+            }
+          },
+          "critic": {
+            "type": "object",
+            "properties": {
+              "raw_output": {},
+              "parsed_output": {}
+            }
+          }
+        }
+      }
+    },
+    "judge": {
+      "type": "object",
+      "properties": {
+        "raw_output": {},
+        "parsed_output": {}
+      }
+    },
+    "termination_reason": {"type": "string"}
+  },
+  "additionalProperties": true
+}
